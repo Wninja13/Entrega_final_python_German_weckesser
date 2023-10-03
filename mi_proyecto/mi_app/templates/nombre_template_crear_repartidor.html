@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crear registro de nuevo repartidor</title>
+</head>
+<body>
+{% extends "plantilla_base.html" %}
+
+{% block content %}
+    <h1>Ingrese datos de repartidor</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar datos de repartidor</button>
+    </form>
+    <a href="{% url 'nombre_url_listar_repartidores' %}">Volver al Listado de Repartidores</a>
+{%endblock%}    
+</body>
+</html>
