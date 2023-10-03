@@ -10,8 +10,10 @@
             background-color: #EBEBEB;
             overflow-x: hidden;
             background-image: url('https://altafidelidadmagazine.com.mx/wp-content/uploads/2020/07/rappi.jpg');
-            background-size: 110%; 
+            background-size: 120%;
             background-repeat: no-repeat;
+            text-align: center; 
+            padding-top: 20px; 
         }
         
         h1 {
@@ -69,35 +71,24 @@
             padding-left: 15px;
             padding-right: 15px;
         }
-
-        form button {
-            display: block;
-            margin: 20px auto;
+        
+        .boton {
+            margin: 20px auto; 
+            width: 400px; 
+            padding: 10px;
             background-color: #FF5D3E;
             color: white;
             border: none;
-            padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
             transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            font-size: 16px;
         }
-        
-        form button:hover {
+
+        .boton:hover {
             background-color: #E64A29;
             transform: translateY(-2px);
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 10px;
-            color: #FF5D3E;
-            text-decoration: none;
-        }
-        
-        a:hover {
-            color: #E64A29;
         }
     </style>
 </head>
@@ -106,8 +97,8 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Guardar datos del repartidor</button>
+        <button type="submit" class="boton">Guardar datos del repartidor</button>
+        <a href="{% url 'nombre_url_listar_repartidores' %}" class="boton">Volver al Listado de Repartidores</a> 
     </form>
-    <a href="{% url 'nombre_url_listar_repartidores' %}">Volver al Listado de Repartidores</a> 
 </body>
 </html>
