@@ -1,19 +1,111 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <title>Crear registro de nuevo repartidor</title>
+    <style>
+        /* Agrega tus estilos CSS personalizados aquí */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #EBEBEB;
+            overflow-x: hidden;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #FFFFFF;
+            border-radius: 5px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        form input[type="text"], 
+        form input[type="email"], 
+        form input[type="password"], 
+        form select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        form input[name="status"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        form input[name="edad_repartidor"] {
+            width: 100%; /* Asegura que el campo "status" tenga el mismo ancho que los demás */
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="password"], 
+        form input[type="number"],
+        form input[type="text"].status-input {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        
+        form button {
+            display: block;
+            margin: 20px auto;
+            background-color: #FF5D3E;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+        
+        form button:hover {
+            background-color: #E64A29;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #FF5D3E;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            color: #E64A29;
+        }
+    </style>
 </head>
 <body>
-{% extends "plantilla_base.html" %}
-
-{% block content %}
-    <h1>Ingrese datos de repartidor</h1>
+    <h1>Ingrese datos del repartidor</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Guardar datos de repartidor</button>
+        <button type="submit">Guardar datos del repartidor</button>
     </form>
-    <a href="{% url 'nombre_url_listar_repartidores' %}">Volver al Listado de Repartidores</a>
-{%endblock%}    
+    <a href="{% url 'nombre_url_listar_repartidores' %}">Volver al Listado de Repartidores</a> 
 </body>
 </html>
