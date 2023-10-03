@@ -14,7 +14,7 @@ urlpatterns = [
     path('cancelaciones/', views.listar_cancelaciones, name='nombre_url_listar_cancelaciones'),
     path('ordenes/', views.listar_ordenes, name='nombre_url_listar_ordenes'),
     #path funciones crear. 
-    path('crear/repartidor/', views.crear_repartidor, name='nombre_template_crear_repartidor'),
+    path('crear/repartidor/', views.crear_repartidor, name='nombre_url_crear_repartidor'),
     path('crear/tienda/', views.crear_tienda, name='crear_tienda'),
     path('crear/producto/', views.crear_producto, name='crear_producto'),
     path('crear/pago/', views.crear_pago, name='crear_pago'),
