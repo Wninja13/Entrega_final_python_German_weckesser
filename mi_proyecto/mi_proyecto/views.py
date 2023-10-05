@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from mi_app.models import Repartidor, Tienda, Producto, Pago, Usuario, Cancelacion, Orden
 from mi_app.forms import RepartidorForm, TiendaForm, ProductoForm, PagoForm, UsuarioForm, CancelacionForm, OrdenForm
+from django.db.models import Q
 
 #homepage
 def homepage(request): 
@@ -8,7 +9,17 @@ def homepage(request):
 
 #Funciones de listado de los modelos. 
 def listar_repartidores(request):
+    # Obtener el término de búsqueda de la URL
+    query = request.GET.get('q')
+    # Obtener todos los repartidores
     repartidores = Repartidor.objects.all()
+    # Filtrar los repartidores según el término de búsqueda
+    if query:
+        repartidores = repartidores.filter(
+            Q(nombre_apellido_repartidor__icontains=query) |
+            Q(mail_repartidor__icontains=query) |
+            Q(direccion_repartidor__icontains=query)
+        )
     return render(request, 'nombre_template_listar_repartidores.html', {'repartidores': repartidores})
 
 def listar_tiendas(request):
@@ -165,43 +176,6 @@ def eliminar_orden(request, id):
         return redirect('nombre_url_listar_ordenes')
     return render(request, 'nombre_template_eliminar_orden.html', {'orden': orden})
 #fin seccion eliminacion. 
-
-#Seccion funciones de visualización. 
-#Visualización repartidor
-def visualizar_repartidor(request, id):
-    repartidor = get_object_or_404(Repartidor, id=id)
-    return render(request, 'nombre_template_visualizar_repartidor.html', {'repartidor': repartidor})
-
-#Visualización Tienda
-def visualizar_tienda(request, id):
-    tienda = get_object_or_404(Tienda, id=id)
-    return render(request, 'nombre_template_visualizar_tienda.html', {'tienda': tienda})
-
-#Visualización Producto. 
-def visualizar_producto(request, id):
-    producto = get_object_or_404(Producto, id=id)
-    return render(request, 'nombre_template_visualizar_producto.html', {'producto': producto})
-
-#Visualización Pago. 
-def visualizar_pago(request, id):
-    pago = get_object_or_404(Pago, id=id)
-    return render(request, 'nombre_template_visualizar_pago.html', {'pago': pago})
-
-#Visualización Usuario. 
-def visualizar_usuario(request, id):
-    usuario = get_object_or_404(Usuario, id=id)
-    return render(request, 'nombre_template_visualizar_usuario.html', {'usuario': usuario})
-
-#Visualización Cancelación 
-def visualizar_cancelacion(request, id):
-    cancelacion = get_object_or_404(Cancelacion, id=id)
-    return render(request, 'nombre_template_visualizar_cancelacion.html', {'cancelacion': cancelacion})
-
-#Visualización Orden 
-def visualizar_orden(request, id):
-    orden = get_object_or_404(Orden, id=id)
-    return render(request, 'nombre_template_visualizar_orden.html', {'orden': orden})
-#Fin sección funciones visualización. 
 
 #inicio seccion funciones actualización. 
 #Actualización repartidor

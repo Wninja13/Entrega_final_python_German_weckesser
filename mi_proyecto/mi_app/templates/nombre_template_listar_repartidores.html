@@ -1,46 +1,178 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Listado de Repartidores</title>
-</head>
-<body>
-    <h1>Listado de Repartidores</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Status</th>
-                <th>Nombre y Apellido</th>
-                <th>Correo Electrónico</th>
-                <th>Dirección</th>
-                <th>Fecha de Nacimiento</th>
-                <th>Fecha de Registro</th>
-                <th>Edad</th>
-                <th>Género</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for repartidor in repartidores %}
-                <tr>
-                    <td>{{ repartidor.id_repartidor }}</td>
-                    <td>{{ repartidor.Status_repartidor }}</td>
-                    <td>{{ repartidor.Nombre_apellido_repartidor }}</td>
-                    <td>{{ repartidor.Mail_repartidor }}</td>
-                    <td>{{ repartidor.Direccion_repartidor }}</td>
-                    <td>{{ repartidor.Fecha_nacimiento_repartidor }}</td>
-                    <td>{{ repartidor.Fecha_registro_repartidor }}</td>
-                    <td>{{ repartidor.Edad_repartidor }}</td>
-                    <td>{{ repartidor.Genero }}</td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="9">No hay repartidores disponibles.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="{% url 'nombre_template_crear_repartidor' %}">Crear Nuevo Repartidor</a>
-</body>
-</html>
+{% extends "plantilla_base.html" %} 
+{% block content %}
+<div class="container text-center">
+    <form method="GET" action="{% url 'nombre_url_listar_repartidores' %}" class="search-form">
+        <input type="text" name="q" placeholder="Buscar por nombre, correo, dirección..." class="search-input" value="{{ request.GET.q }}">
+        <button type="submit" class="btn-buscar">Buscar</button>
+        {% if request.GET.q %}
+        <a href="{% url 'nombre_url_listar_repartidores' %}" class="btn-limpiar-busqueda">Limpiar búsqueda</a>
+        {% endif %}
+    </form>
+</div>
+<a href="{% url 'nombre_url_crear_repartidor' %}" class="btn-estilo">Crear Nuevo Repartidor</a>
+<h1 class="titulo-listar">Listado de Repartidores</h1>
+<!-- Tarjetas para repartidores -->
+<div class="container">
+    {% for repartidor in repartidores %}
+    <div class="card">
+        <!-- Usando la imagen proporcionada para todos los repartidores -->
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw4HBg4OBxMLEA8QDQ0ODRINDQ8IEg8KIB0WFiAdHxMYHTQgGBsxGxYTLT0tMSkrLi4uIx8zODMtNygtLjcBCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIAK8ArwMBIgACEQEDEQH/xAAbAAEAAwEBAQEAAAAAAAAAAAAAAQQFBgMCB//EADEQAQABAgQDBQcEAwAAAAAAAAABAgMEERIhBTFREzJBcYEiYXKRscHRFIKh8GKy4f/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD9xAAAAAAAAAAAAAAAAAAAAAAAAAAAABnYziMW502Mpq8Z5xH5Bfrri3TnXMRHv2VLnE7dHLVV8Mflj3LlV2rO5MzPv/uz4BqzxePCmr5xD6p4tRM+1TXHylkAOgtYy3d2oqjPpPsysOXW8Nj67MxFXtU9J6eYN0eVi9Tft52+X0nyeoAAAAAAAAAAAK+Mv/p7E1ePKn4gU+J4zKeztfvmPoyyZznOd59/UAAAAAAB64e/Vh7kTR6x1hvWLsX7cVUcp/iXOL3CsR2V7RV3av8AcG0AAAAAAAAAAx+M3NV6mjpGfq2HP8Qq1YyvziPoCuAAAAAAAAROU5xz+4A6Sxc7WzTV1iJeinwqrVg6fdMwuAAAAAAAAAOex0ZYyv4p/LoWJxa3pxWfhVTE+vL8ApAAAAAAAAAA2+Exlg4+KqV14YO32eFoieemM/N7gAAAAAAAAKXFLHa4fOnnTv6LoDlxb4hhZsXM6O5PLLwnoqAAAAAAALGBsdviIjwjeryeFMTVVEU7zPKI33buAw36ezv3p3qBaAAAAAAAAB5X71NijO5OUfWQekzko4niVNra17U/x8/FQxeNqxG3Knp185VQe1/E13+/O3SNo+TxAAAAAAAE01TTVE0zMTHjGy9h+J1UbXvajrG0/wDVAB0Vi/Tfpztzn7uUx6PZzNFc26s6JmJ6xs1sFxCLvs3soq8J5RV+AaAAAAAPO9ci1bmqvlAPjFYinD29VfpHWWFfvVX7mqv0iPCE4m/OIu6qvSOkPIAAAAAAAAAAAAAAGlw/H7xRfnyqazl2twzF9pHZ3ecd2esA0gAGJxPE9rd0092n+a2jj7/YYeZjvTtT5sEAAAAAAAAAAAAAAAABNNU01RNO0xyy6oAdBg8RGIsxV48pj/JYYXDb/Y4iInu1bT5t0GJxW72mJ0xyp2/d/clJNdU11zM85mZQAAAAAAAAAAAAAAAAAAA6HB3e3w9NXjlv8TnmpwW536PKqPp+AZYuY7BzZrmqnLTMzMb8vRU0ggTpNIIE6TSCBOk0ggTpNIIE6TSCBOk0ggTpNIIE6TSCBOk0gha4bc7PFx74mPv9lbJf4dhJmuLle1MZ5ZbzMg//2Q==" class="card-img-top" alt="{{ repartidor.nombre_apellido_repartidor }}">
+        <div class="card-body">
+            <p>Nombre: {{ repartidor.nombre_apellido_repartidor}}</p>
+            <p>Email: {{ repartidor.mail_repartidor }}</p>
+            <p>Dirección: {{ repartidor.direccion_repartidor }}</p>
+            <p>Fecha de Nacimiento: {{ repartidor.fecha_nacimiento_repartidor }}</p>
+            <p>Fecha de Registro: {{ repartidor.fecha_registro_repartidor }}</p>
+            <p>Edad: {{ repartidor.edad_repartidor }}</p>
+            <p>Género: {{ repartidor.genero }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    /* Estilos para las tarjetas */
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+        align-items: center;
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .search-form {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px 5px 5px 5px;
+        font-size: 16px;
+        max-width: 300px;
+    }
+
+    .search-input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px 5px 5px 5px;
+        font-size: 16px;
+        max-width: 300px;
+    }
+    
+    .btn-buscar {
+        padding: 10px 20px;
+        background-color: #FF5D3E;
+        color: white;
+        border: none;
+        border-radius: 5px 5px 5px 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-left: 10px; 
+    }
+    
+    .btn-buscar:hover {
+        background-color: #E64A29;
+    }
+
+    .repartidores-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: 0.3s;
+        background-color: #f9f9f9;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        transform: scale(1.05);
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 150px;
+        object-fit: contain;
+        border-radius: 10px 10px 0 0;
+        margin-top: 10px;
+    }
+
+    .card-body {
+        padding: 20px;
+        margin-top: 10px;
+        line-height: 1.5;
+        border: none; 
+        border-radius: 0 0 10px 10px;
+    }
+
+    .titulo-listar {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 2.5em;
+        font-family: 'Roboto', sans-serif;
+        font-weight:400;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        font-weight: bold;
+        color: #333;
+    }
+
+    .btn-estilo {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        width: 15%;
+        background-color: #FF5D3E;
+        color: white;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        font-size: 16px;
+    }
+
+    .btn-estilo:hover {
+        background-color: #E64A29;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-limpiar-busqueda {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        width: 25%;
+        height:10%;
+        background-color: #FF5D3E;
+        color: white;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        font-size: 16px;
+    }
+    
+    .btn-limpiar-busqueda:hover {
+        background-color: #E64A29;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+</style>
+{% endblock content %}

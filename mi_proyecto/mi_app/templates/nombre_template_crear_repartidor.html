@@ -1,25 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <title>Crear registro de nuevo repartidor</title>
+{% extends "plantilla_base.html" %} 
+{% block content %}
+<h1 class="titulo-repartidor">Ingrese datos del repartidor</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-guardar-repartidor">Guardar datos del repartidor</button>
+    <a href="{% url 'nombre_url_listar_repartidores' %}" class="btn-listado-repartidores">Volver al Listado de Repartidores</a> 
+</form>
+
     <style>
-        /* Agrega tus estilos CSS personalizados aquí */
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #EBEBEB;
-            overflow-x: hidden;
-            background-image: url('https://altafidelidadmagazine.com.mx/wp-content/uploads/2020/07/rappi.jpg');
-            background-size: 120%;
-            background-repeat: no-repeat;
-            text-align: center; 
-            padding-top: 20px; 
-        }
-        
-        h1 {
+        .titulo-repartidor {
             text-align: center;
             margin-top: 20px;
-        }
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            font-family: 'Roboto', sans-serif;
+            font-weight:400;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            color: #333;
+            }
         
         form {
             max-width: 400px;
@@ -29,7 +29,7 @@
             border-radius: 5px;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
         }
-
+        
         form input[type="text"], 
         form input[type="email"], 
         form input[type="password"], 
@@ -42,8 +42,9 @@
             box-sizing: border-box;
             font-size: 16px;
         }
-
-        form input[name="status"] {
+        
+        form input[name="status"],
+        form input[name="edad_repartidor"] {
             width: 100%;
             padding: 10px;
             margin: 5px 0;
@@ -52,17 +53,7 @@
             box-sizing: border-box;
             font-size: 16px;
         }
-
-        form input[name="edad_repartidor"] {
-            width: 100%; /* Asegura que el campo "status" tenga el mismo ancho que los demás */
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-
+        
         form input[type="text"],
         form input[type="email"],
         form input[type="password"], 
@@ -72,33 +63,52 @@
             padding-right: 15px;
         }
         
-        .boton {
-            margin: 20px auto; 
-            width: 400px; 
+        .btn-guardar-repartidor {
+            display: block;
+            margin: 20px auto;
+            width: 80%;
             padding: 10px;
             background-color: #FF5D3E;
             color: white;
+            text-align: center;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
             font-size: 16px;
-        }
-
-        .boton:hover {
+            }
+        
+        .btn-guardar-repartidor:hover {
             background-color: #E64A29;
             transform: translateY(-2px);
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
+            }
+        
+        .btn-listado-repartidores {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            width: 80%;
+            background-color: #FF5D3E;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            font-size: 16px;
+            }
+            
+        .btn-listado-repartidores:hover {
+            background-color: #E64A29;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            }
+            
+        .btn-listado-repartidores:visited {
+            color: white;
+            }    
     </style>
-</head>
-<body>
-    <h1>Ingrese datos del repartidor</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="boton">Guardar datos del repartidor</button>
-        <a href="{% url 'nombre_url_listar_repartidores' %}" class="boton">Volver al Listado de Repartidores</a> 
-    </form>
-</body>
-</html>
+{% endblock content %}
+
+

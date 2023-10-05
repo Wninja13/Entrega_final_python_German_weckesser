@@ -29,14 +29,6 @@ urlpatterns = [
     path('eliminar/usuario/<int:id>/', views.eliminar_usuario, name='eliminar_usuario'),
     path('eliminar/cancelacion/<int:id>/', views.eliminar_cancelacion, name='eliminar_cancelacion'),
     path('eliminar/orden/<int:id>/', views.eliminar_orden, name='eliminar_orden'),
-    #path funciones para visualizacion. 
-    path('visualizar/repartidor/<int:id>/', views.visualizar_repartidor, name='visualizar_repartidor'),
-    path('visualizar/tienda/<int:id>/', views.visualizar_tienda, name='visualizar_tienda'),
-    path('visualizar/producto/<int:id>/', views.visualizar_producto, name='visualizar_producto'),
-    path('visualizar/pago/<int:id>/', views.visualizar_pago, name='visualizar_pago'),
-    path('visualizar/usuario/<int:id>/', views.visualizar_usuario, name='visualizar_usuario'),
-    path('visualizar/cancelacion/<int:id>/', views.visualizar_cancelacion, name='visualizar_cancelacion'),
-    path('visualizar/orden/<int:id>/', views.visualizar_orden, name='visualizar_orden'),
     #path funciones para actualizar. 
     path('actualizar/repartidor/<int:id>/', views.actualizar_repartidor, name='actualizar_repartidor'),
     path('actualizar/tienda/<int:id>/', views.actualizar_tienda, name='actualizar_tienda'),
