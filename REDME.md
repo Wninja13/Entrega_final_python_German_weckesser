@@ -1,12 +1,13 @@
 # Django Rappi.
 
-#Introducción.
+## Introducción.
 
 Este proyecto tiene por finalidad poner a prueba las utilidades que posee Django en lo que hace al desarrollo web y gestión de base de datos. A los efectos de cumplir con esto, se ha tomado como base la empresa de reparto Rappi.
 
 ## Índice
 
 - [Django Rappi.](#django-rappi)
+  - [Introducción.](#introducción)
   - [Índice](#índice)
   - [1.- Requisitos](#1--requisitos)
   - [2.- Instalación y Configuración](#2--instalación-y-configuración)
