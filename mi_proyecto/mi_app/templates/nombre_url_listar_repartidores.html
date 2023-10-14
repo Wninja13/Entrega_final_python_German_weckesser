@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listado de Repartidores</title>
+</head>
+<body>
+    <h1>Listado de Repartidores</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Status</th>
+                <th>Nombre y Apellido</th>
+                <th>Correo Electrónico</th>
+                <th>Dirección</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Fecha de Registro</th>
+                <th>Edad</th>
+                <th>Género</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for repartidor in repartidores %}
+                <tr>
+                    <td>{{ repartidor.id_repartidor }}</td>
+                    <td>{{ repartidor.Status_repartidor }}</td>
+                    <td>{{ repartidor.Nombre_apellido_repartidor }}</td>
+                    <td>{{ repartidor.Mail_repartidor }}</td>
+                    <td>{{ repartidor.Direccion_repartidor }}</td>
+                    <td>{{ repartidor.Fecha_nacimiento_repartidor }}</td>
+                    <td>{{ repartidor.Fecha_registro_repartidor }}</td>
+                    <td>{{ repartidor.Edad_repartidor }}</td>
+                    <td>{{ repartidor.Genero }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="9">No hay repartidores disponibles.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'nombre_url_crear_repartidor' %}">Crear Nuevo Repartidor</a>
+</body>
+</html>

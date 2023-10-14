@@ -4,6 +4,9 @@ from django.contrib import admin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', views.login_usuario, name='login_usuario'),
+    path('editar_perfil/', views.login_usuario, name='editar_perfil'),
+    path('cerrar-sesion/', views.cerrar_sesion, name='cerrar_sesion'),
     path('',views.homepage, name='homepage'),
     #path funciones listado.
     path('repartidores/', views.listar_repartidores, name='nombre_url_listar_repartidores'),

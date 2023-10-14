@@ -1,0 +1,12 @@
+{% extends "plantilla_base.html" %}
+
+{% block content %}
+<div class="user-profile">
+    <h2>Editar Perfil</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-save-profile">Guardar Cambios</button>
+    </form>
+</div>
+{% endblock %}

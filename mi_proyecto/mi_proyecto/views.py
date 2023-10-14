@@ -1,26 +1,90 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from mi_app.models import Repartidor, Tienda, Producto, Pago, Usuario, Cancelacion, Orden
-from mi_app.forms import RepartidorForm, TiendaForm, ProductoForm, PagoForm, UsuarioForm, CancelacionForm, OrdenForm
+from mi_app.forms import RepartidorForm, TiendaForm, ProductoForm, PagoForm, UsuarioForm, CancelacionForm, OrdenForm,LoginForm
 from django.db.models import Q
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from mi_app.forms import LoginForm 
+from mi_app.forms import PerfilForm
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 #homepage
 def homepage(request): 
     return render(request, 'homepage.html')
 
+#Login usuarios y creación. 
+def login_usuario(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)  # Crear una instancia del formulario con los datos del POST
+        if form.is_valid():
+            username = form.cleaned_data['login_username']
+            password = form.cleaned_data['login_password']
+            user = authenticate(request, username=username, password=password)
+            
+            if user is not None:
+                login(request, user)
+                return redirect('homepage')
+            else:
+                messages.error(request, 'Nombre de usuario o contraseña incorrectos')
+    else:
+        form = LoginForm()  # Crear una instancia vacía del formulario si no es una solicitud POST
+    
+    return render(request, 'login_usuarios.html', {'form': form})
+
+def editar_perfil(request):
+    if request.method == 'POST':
+        form = PerfilForm(request.POST, instance=request.user.profile)
+
+        if form.is_valid():
+            form.save()
+            # Redirige a una página de éxito o a donde desees después de editar el perfil
+            return redirect('perfil_exitoso')  # Reemplaza 'perfil_exitoso' con el nombre de tu URL de éxito
+    else:
+        form = PerfilForm(instance=request.user.profile)
+
+    return render(request, 'nombre_template_editar_perfil.html', {'form': form})
+
+def editar_perfil(request):
+    # Recupera el perfil del usuario actual
+    perfil = request.user.profile
+
+    if request.method == 'POST':
+        # Si se envía un formulario, procesa los datos
+        form = PerfilForm(request.POST, request.FILES, instance=perfil)
+        if form.is_valid():
+            form.save()
+            return redirect('nombre_template_crear_usuario')  # Reemplaza 'nombre_template_crear_usuario' con la URL a la vista de perfil
+    else:
+        # Si es una solicitud GET, muestra el formulario para editar el perfil
+        form = PerfilForm(instance=perfil)
+
+    return render(request, 'nombre_template_editar_perfil.html', {'form': form})
+
+def cerrar_sesion(request):
+    logout(request)
+    # Redirecciona a la página de inicio o a donde desees después de cerrar sesión
+    return redirect('nombre_de_la_vista_o_URL')
+
 #Funciones de listado de los modelos. 
 def listar_repartidores(request):
-    # Obtener el término de búsqueda de la URL
     query = request.GET.get('q')
-    # Obtener todos los repartidores
     repartidores = Repartidor.objects.all()
-    # Filtrar los repartidores según el término de búsqueda
+
     if query:
         repartidores = repartidores.filter(
             Q(nombre_apellido_repartidor__icontains=query) |
             Q(mail_repartidor__icontains=query) |
             Q(direccion_repartidor__icontains=query)
         )
-    return render(request, 'nombre_template_listar_repartidores.html', {'repartidores': repartidores})
+    context = {
+        'repartidores': repartidores,
+        'is_query_empty': not query,
+        'is_query_unsuccessful': query and not repartidores.exists()
+    }
+    
+    return render(request, 'nombre_template_listar_repartidores.html', context)
 
 def listar_tiendas(request):
     tiendas = Tienda.objects.all()

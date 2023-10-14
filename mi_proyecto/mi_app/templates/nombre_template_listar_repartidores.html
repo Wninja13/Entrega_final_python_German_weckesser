@@ -1,4 +1,5 @@
 {% extends "plantilla_base.html" %} 
+
 {% block content %}
 <div class="container text-center">
     <form method="GET" action="{% url 'nombre_url_listar_repartidores' %}" class="search-form">
@@ -15,8 +16,7 @@
 <div class="container">
     {% for repartidor in repartidores %}
     <div class="card">
-        <!-- Usando la imagen proporcionada para todos los repartidores -->
-        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw4HBg4OBxMLEA8QDQ0ODRINDQ8IEg8KIB0WFiAdHxMYHTQgGBsxGxYTLT0tMSkrLi4uIx8zODMtNygtLjcBCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIAK8ArwMBIgACEQEDEQH/xAAbAAEAAwEBAQEAAAAAAAAAAAAAAQQFBgMCB//EADEQAQABAgQDBQcEAwAAAAAAAAABAgMEERIhBTFREzJBcYEiYXKRscHRFIKh8GKy4f/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD9xAAAAAAAAAAAAAAAAAAAAAAAAAAAABnYziMW502Mpq8Z5xH5Bfrri3TnXMRHv2VLnE7dHLVV8Mflj3LlV2rO5MzPv/uz4BqzxePCmr5xD6p4tRM+1TXHylkAOgtYy3d2oqjPpPsysOXW8Nj67MxFXtU9J6eYN0eVi9Tft52+X0nyeoAAAAAAAAAAAK+Mv/p7E1ePKn4gU+J4zKeztfvmPoyyZznOd59/UAAAAAAB64e/Vh7kTR6x1hvWLsX7cVUcp/iXOL3CsR2V7RV3av8AcG0AAAAAAAAAAx+M3NV6mjpGfq2HP8Qq1YyvziPoCuAAAAAAAAROU5xz+4A6Sxc7WzTV1iJeinwqrVg6fdMwuAAAAAAAAAOex0ZYyv4p/LoWJxa3pxWfhVTE+vL8ApAAAAAAAAAA2+Exlg4+KqV14YO32eFoieemM/N7gAAAAAAAAKXFLHa4fOnnTv6LoDlxb4hhZsXM6O5PLLwnoqAAAAAAALGBsdviIjwjeryeFMTVVEU7zPKI33buAw36ezv3p3qBaAAAAAAAAB5X71NijO5OUfWQekzko4niVNra17U/x8/FQxeNqxG3Knp185VQe1/E13+/O3SNo+TxAAAAAAAE01TTVE0zMTHjGy9h+J1UbXvajrG0/wDVAB0Vi/Tfpztzn7uUx6PZzNFc26s6JmJ6xs1sFxCLvs3soq8J5RV+AaAAAAAPO9ci1bmqvlAPjFYinD29VfpHWWFfvVX7mqv0iPCE4m/OIu6qvSOkPIAAAAAAAAAAAAAAGlw/H7xRfnyqazl2twzF9pHZ3ecd2esA0gAGJxPE9rd0092n+a2jj7/YYeZjvTtT5sEAAAAAAAAAAAAAAAABNNU01RNO0xyy6oAdBg8RGIsxV48pj/JYYXDb/Y4iInu1bT5t0GJxW72mJ0xyp2/d/clJNdU11zM85mZQAAAAAAAAAAAAAAAAAAA6HB3e3w9NXjlv8TnmpwW536PKqPp+AZYuY7BzZrmqnLTMzMb8vRU0ggTpNIIE6TSCBOk0ggTpNIIE6TSCBOk0ggTpNIIE6TSCBOk0gha4bc7PFx74mPv9lbJf4dhJmuLle1MZ5ZbzMg//2Q==" class="card-img-top" alt="{{ repartidor.nombre_apellido_repartidor }}">
+        <img src="https://cdn2.iconfinder.com/data/icons/general-pack-3/24/Unknown_User-256.png" class="card-img-top" alt="{{ repartidor.nombre_apellido_repartidor }}">
         <div class="card-body">
             <p>Nombre: {{ repartidor.nombre_apellido_repartidor}}</p>
             <p>Email: {{ repartidor.mail_repartidor }}</p>
@@ -28,6 +28,15 @@
         </div>
     </div>
     {% endfor %}
+    {% if is_query_empty %}
+    <!-- Puedes mostrar un mensaje o imagen diferente aquí si la búsqueda no se ha realizado -->
+    {% endif %}
+    {% if is_query_unsuccessful %}
+        <div class="no-result-container text-center">
+            <img class="no-result-image" src="https://drive.google.com/uc?export=view&id=1s0RtpUPBDJAToSwjRTK0EhRkz5BFSBKI">
+            <p class="no-result-text mensaje-error">Parece que no hemos encontrado lo que buscas. Vuelve a intentarlo.</p>    
+        </div>
+    {% endif %}
 </div>
 
 <style>
@@ -173,6 +182,37 @@
         transform: translateY(-2px);
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     }
+
+    .no-result-container {
+        margin-top: 40px;
+        display: flex;            /* Habilita flexbox */
+        flex-direction: column;   /* Organiza los hijos (la imagen y el texto) en una columna */
+        align-items: center;      /* Centra los hijos horizontalmente */
+        justify-content: center;  /* Centra los hijos verticalmente */
+    }
+    
+    .no-result-image {
+        width: 500px; 
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+    }
+    
+    .no-result-text {
+        font-size: 1.2em;
+        color: #777;
+        font-style: italic;
+        font-family: 'Roboto', sans-serif;
+        text-align: center; /* Asegura que el texto esté centrado */
+    }
+    
+    .mensaje-error {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        margin-top: 10px;
+    }
+    
     
 </style>
 {% endblock content %}
