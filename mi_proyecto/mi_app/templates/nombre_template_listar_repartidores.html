@@ -25,6 +25,8 @@
             <p>Fecha de Registro: {{ repartidor.fecha_registro_repartidor }}</p>
             <p>Edad: {{ repartidor.edad_repartidor }}</p>
             <p>Género: {{ repartidor.genero }}</p>
+            <a href="{% url 'actualizar_repartidor' repartidor.id %}" class="btn-editar">Editar</a>
+            <a href="{% url 'eliminar_repartidor' repartidor.id %}" class="btn-eliminar">Eliminar</a>
         </div>
     </div>
     {% endfor %}
@@ -138,6 +140,48 @@
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         font-weight: bold;
         color: #333;
+    }
+
+    .btn-editar {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        width: 50%;
+        background-color: #FF5D3E;
+        color: white;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        font-size: 16px;
+    }
+
+    .btn-editar:hover {
+        background-color: #E64A29;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-eliminar {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        width: 50%;
+        background-color: #FF5D3E;
+        color: white;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        font-size: 16px;
+    }
+
+    .btn-eliminar:hover {
+        background-color: #E64A29;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     .btn-estilo {

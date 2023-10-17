@@ -185,6 +185,7 @@
         box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
         transition: transform 0.3s ease;
     
+    
         /* Efecto hover */
         &:hover {
             transform: translate(-50%, -50%) scale(1.05);
@@ -227,12 +228,7 @@
             <div>Repartidores</div>
             <ul>
                 <li><a href="{% url 'nombre_url_listar_repartidores' %}">Listar</a></li>
-                <li><a href="{% url 'nombre_url_crear_repartidor' %}">Crear</a></li>
-                <li><a href="#">Editar</a></li>
-                <!-- Similar a visualizar, editar un repartidor necesita saber qué repartidor editar, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál repartidor desea editar -->
-                <li><a href="#">Eliminar</a></li>
-                <!-- Similar a visualizar y editar, eliminar requiere seleccionar un repartidor específico, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál 
-                repartidor desea eliminar -->           
+                <li><a href="{% url 'nombre_url_crear_repartidor' %}">Crear</a></li>        
             </ul>
         </li>
         <li>
@@ -240,11 +236,6 @@
             <ul>
                 <li><a href="{% url 'nombre_url_listar_tiendas' %}">Listar</a></li>
                 <li><a href="#">Crear</a></li>
-                <li><a href="#">Editar</a></li>
-                <!-- Similar a visualizar, editar un repartidor necesita saber qué repartidor editar, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál repartidor desea editar -->
-                <li><a href="#">Eliminar</a></li>
-                <!-- Similar a visualizar y editar, eliminar requiere seleccionar un repartidor específico, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál 
-                repartidor desea eliminar --> 
             </ul>
         </li>
         <li>
@@ -252,11 +243,6 @@
             <ul>
                 <li><a href="{% url 'nombre_url_listar_productos' %}">Listar</a></li>
                 <li><a href="#">Crear</a></li>
-                <li><a href="#">Editar</a></li>
-                <!-- Similar a visualizar, editar un repartidor necesita saber qué repartidor editar, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál repartidor desea editar -->
-                <li><a href="#">Eliminar</a></li>
-                <!-- Similar a visualizar y editar, eliminar requiere seleccionar un repartidor específico, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál 
-                repartidor desea eliminar --> 
             </ul>
         </li>
         <li>
@@ -264,11 +250,6 @@
             <ul>
                 <li><a href="{% url 'nombre_url_listar_pagos' %}">Listar</a></li>
                 <li><a href="#">Crear</a></li>
-                <li><a href="#">Editar</a></li>
-                <!-- Similar a visualizar, editar un repartidor necesita saber qué repartidor editar, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál repartidor desea editar -->
-                <li><a href="#">Eliminar</a></li>
-                <!-- Similar a visualizar y editar, eliminar requiere seleccionar un repartidor específico, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál 
-                repartidor desea eliminar --> 
             </ul>
         </li>
         <li>
@@ -276,11 +257,6 @@
             <ul>
                 <li><a href="{% url 'nombre_url_listar_usuarios' %}">Listar</a></li>
                 <li><a href="#">Crear</a></li>
-                <li><a href="#">Editar</a></li>
-                <!-- Similar a visualizar, editar un repartidor necesita saber qué repartidor editar, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál repartidor desea editar -->
-                <li><a href="#">Eliminar</a></li>
-                <!-- Similar a visualizar y editar, eliminar requiere seleccionar un repartidor específico, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál 
-                repartidor desea eliminar --> 
             </ul>
         </li>
         <li>
@@ -288,11 +264,6 @@
             <ul>
                 <li><a href="{% url 'nombre_url_listar_cancelaciones' %}">Listar</a></li>
                 <li><a href="#">Crear</a></li>
-                <li><a href="#">Editar</a></li>
-                <!-- Similar a visualizar, editar un repartidor necesita saber qué repartidor editar, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál repartidor desea editar -->
-                <li><a href="#">Eliminar</a></li>
-                <!-- Similar a visualizar y editar, eliminar requiere seleccionar un repartidor específico, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál 
-                repartidor desea eliminar --> 
             </ul>
         </li>
         <li>
@@ -300,11 +271,6 @@
             <ul>
                 <li><a href="{% url 'nombre_url_listar_ordenes' %}">Listar</a></li>
                 <li><a href="#">Crear</a></li>
-                <li><a href="#">Editar</a></li>
-                <!-- Similar a visualizar, editar un repartidor necesita saber qué repartidor editar, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál repartidor desea editar -->
-                <li><a href="#">Eliminar</a></li>
-                <!-- Similar a visualizar y editar, eliminar requiere seleccionar un repartidor específico, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál 
-                repartidor desea eliminar --> 
             </ul>
         </li>
         <a href="{% url 'login_usuario' %}">Login/Crear usuario</a>
