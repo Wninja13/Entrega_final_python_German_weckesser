@@ -109,8 +109,23 @@ def listar_tiendas(request):
     return render(request, 'nombre_template_listar_tiendas.html', context)
 
 def listar_productos(request):
+    query = request.GET.get('q')
     productos = Producto.objects.all()
-    return render(request, 'nombre_template_listar_productos.html', {'productos': productos})
+
+    if query:
+        productos = productos.filter(
+            Q(nombre_producto__icontains=query) |
+            Q(precio__iexact=query) |
+            Q(categoria__icontains=query)
+        )
+
+    context = {
+        'productos': productos,
+        'is_query_empty': not query,
+        'is_query_unsuccessful': query and not productos.exists()
+    }
+    
+    return render(request, 'nombre_template_listar_productos.html', context)
 
 def listar_pagos(request):
     pagos = Pago.objects.all()

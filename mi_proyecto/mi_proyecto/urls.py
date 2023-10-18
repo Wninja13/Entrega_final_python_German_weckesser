@@ -19,7 +19,7 @@ urlpatterns = [
     #path funciones crear. 
     path('crear/repartidor/', views.crear_repartidor, name='nombre_url_crear_repartidor'),
     path('crear/tienda/', views.crear_tienda, name='nombre_url_crear_tienda'),
-    path('crear/producto/', views.crear_producto, name='crear_producto'),
+    path('crear/producto/', views.crear_producto, name='nombre_url_crear_producto'),
     path('crear/pago/', views.crear_pago, name='crear_pago'),
     path('crear/usuario/', views.crear_usuario, name='crear_usuario'),
     path('crear/cancelacion/', views.crear_cancelacion, name='crear_cancelacion'),

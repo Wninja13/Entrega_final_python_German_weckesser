@@ -2,31 +2,27 @@
 
 {% block content %}
 <div class="container text-center">
-    <form method="GET" action="{% url 'nombre_url_listar_repartidores' %}" class="search-form">
-        <input type="text" name="q" placeholder="Buscar por nombre, correo, dirección..." class="search-input" value="{{ request.GET.q }}">
+    <form method="GET" action="{% url 'nombre_url_listar_productos' %}" class="search-form">
+        <input type="text" name="q" placeholder="Buscar por nombre, descripción, categoría..." class="search-input" value="{{ request.GET.q }}">
         <button type="submit" class="btn-buscar">Buscar</button>
         {% if request.GET.q %}
-        <a href="{% url 'nombre_url_listar_repartidores' %}" class="btn-limpiar-busqueda">Limpiar búsqueda</a>
+        <a href="{% url 'nombre_url_listar_productos' %}" class="btn-limpiar-busqueda">Limpiar búsqueda</a>
         {% endif %}
     </form>
 </div>
-<a href="{% url 'nombre_url_crear_repartidor' %}" class="btn-estilo">Crear Nuevo Repartidor</a>
-<h1 class="titulo-listar">Listado de Repartidores</h1>
-<!-- Tarjetas para repartidores -->
+<a href="{% url 'nombre_url_crear_producto' %}" class="btn-estilo">Crear Nuevo Producto</a>
+<h1 class="titulo-listar">Listado de Productos</h1>
+<!-- Tarjetas para productos -->
 <div class="container">
-    {% for repartidor in repartidores %}
+    {% for producto in productos %}
     <div class="card">
-        <img src="https://cdn2.iconfinder.com/data/icons/general-pack-3/24/Unknown_User-256.png" class="card-img-top" alt="{{ repartidor.nombre_apellido_repartidor }}">
+        <img src="https://cdn0.iconfinder.com/data/icons/online-shopping-fill-shoppers-features/512/Order_confirmation-256.png" class="card-img-top" alt="{{ producto.nombre_producto }}">
         <div class="card-body">
-            <p>Nombre: {{ repartidor.nombre_apellido_repartidor}}</p>
-            <p>Email: {{ repartidor.mail_repartidor }}</p>
-            <p>Dirección: {{ repartidor.direccion_repartidor }}</p>
-            <p>Fecha de Nacimiento: {{ repartidor.fecha_nacimiento_repartidor }}</p>
-            <p>Fecha de Registro: {{ repartidor.fecha_registro_repartidor }}</p>
-            <p>Edad: {{ repartidor.edad_repartidor }}</p>
-            <p>Género: {{ repartidor.genero }}</p>
-            <a href="{% url 'actualizar_repartidor' repartidor.id %}" class="btn-editar">Editar</a>
-            <a href="{% url 'eliminar_repartidor' repartidor.id %}" class="btn-eliminar">Eliminar</a>
+            <p>Nombre: {{ producto.nombre_producto }}</p>
+            <p>Categoría: {{ producto.categoria }}</p>
+            <p>Precio: ${{ producto.precio }}</p>
+            <a href="{% url 'actualizar_producto' producto.id %}" class="btn-editar">Editar</a>
+            <a href="{% url 'eliminar_producto' producto.id %}" class="btn-eliminar">Eliminar</a>
         </div>
     </div>
     {% endfor %}
@@ -40,7 +36,6 @@
         </div>
     {% endif %}
 </div>
-
 <style>
     /* Estilos para las tarjetas */
     .container {
@@ -65,30 +60,22 @@
     .search-input {
         padding: 10px;
         border: 1px solid #ccc;
-        border-radius: 5px 5px 5px 5px;
+        border-radius: 5px;
         font-size: 16px;
         max-width: 300px;
     }
 
-    .search-input {
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px 5px 5px 5px;
-        font-size: 16px;
-        max-width: 300px;
-    }
-    
     .btn-buscar {
         padding: 10px 20px;
         background-color: #FF5D3E;
         color: white;
         border: none;
-        border-radius: 5px 5px 5px 5px;
+        border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s;
-        margin-left: 10px; 
+        margin-left: 10px;
     }
-    
+
     .btn-buscar:hover {
         background-color: #E64A29;
     }
@@ -126,7 +113,6 @@
         padding: 20px;
         margin-top: 10px;
         line-height: 1.5;
-        border: none; 
         border-radius: 0 0 10px 10px;
     }
 
@@ -136,27 +122,25 @@
         margin-bottom: 20px;
         font-size: 2.5em;
         font-family: 'Roboto', sans-serif;
-        font-weight:400;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         font-weight: bold;
         color: #333;
     }
 
-    .btn-editar {
+    .btn-editar, .btn-eliminar, .btn-estilo, .btn-limpiar-busqueda {
         display: block;
         margin: 20px auto;
         padding: 10px;
-        width: 50%;
-        background-color: #FF5D3E;
-        color: white;
+        width:50%;
         text-align: center;
         border: none;
         border-radius: 5px;
         text-decoration: none;
         transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
         font-size: 16px;
+        color: white;
+        background-color: #FF5D3E;
     }
-
     .btn-editar:hover {
         background-color: #E64A29;
         transform: translateY(-2px);
@@ -255,7 +239,7 @@
     .mensaje-error {
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         margin-top: 10px;
-    }
-    
+    }   
 </style>
+
 {% endblock content %}
