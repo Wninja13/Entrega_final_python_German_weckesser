@@ -87,8 +87,26 @@ def listar_repartidores(request):
     return render(request, 'nombre_template_listar_repartidores.html', context)
 
 def listar_tiendas(request):
+    query = request.GET.get('q')
     tiendas = Tienda.objects.all()
-    return render(request, 'nombre_template_listar_tiendas.html', {'tiendas': tiendas})
+
+    if query:
+        tiendas = tiendas.filter(
+            Q(titular_tienda__icontains=query) |
+            Q(denominacion_social_tienda__icontains=query) |
+            Q(direccion_tienda__icontains=query) |
+            Q(telefono_tienda__icontains=query) |  
+            Q(zona_tienda__icontains=query) |
+            Q(mail_tienda__icontains=query)
+        )
+
+    context = {
+        'tiendas': tiendas,
+        'is_query_empty': not query,
+        'is_query_unsuccessful': query and not tiendas.exists()
+    }
+    
+    return render(request, 'nombre_template_listar_tiendas.html', context)
 
 def listar_productos(request):
     productos = Producto.objects.all()
