@@ -128,8 +128,23 @@ def listar_productos(request):
     return render(request, 'nombre_template_listar_productos.html', context)
 
 def listar_pagos(request):
+    query = request.GET.get('q')
     pagos = Pago.objects.all()
-    return render(request, 'nombre_template_listar_pagos.html', {'pagos': pagos})
+
+    if query:
+        pagos = pagos.filter(
+            Q(metodo_pago__icontains=query) |
+            Q(monto__iexact=query) | 
+            Q(fecha_pago__icontains=str(query))
+        )
+
+    context = {
+        'pagos': pagos,
+        'is_query_empty': not query,
+        'is_query_unsuccessful': query and not pagos.exists()
+    }
+    
+    return render(request, 'nombre_template_listar_pagos.html', context)
 
 def listar_usuarios(request):
     usuarios = Usuario.objects.all()
