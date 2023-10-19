@@ -24,23 +24,26 @@ class PagoForm(forms.ModelForm):
         fields = '__all__'
 
 class UsuarioForm(forms.ModelForm): 
-    model = Usuario
-    fields = '__all__'
+    class Meta:
+        model = Usuario
+        fields = '__all__'
 
-class CancelacionForm(forms.ModelForm): 
-    model = Cancelacion
-    fields = '__all__'
+class CancelacionForm(forms.ModelForm):
+    class Meta: 
+        model = Cancelacion
+        fields = '__all__'
     
-class OrdenForm(forms.ModelForm): 
-    model = Orden
-    fields = '__all__'
+class OrdenForm(forms.ModelForm):
+    class Meta: 
+        model = Orden
+        fields = '__all__'
     
 class LoginForm(forms.Form):  # Utiliza forms.Form en lugar de forms.ModelForm
     login_username = forms.CharField(label="Nombre de usuario", max_length=100)
     login_password = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
 
 
-class UsuarioForm(forms.ModelForm):
+class LoginForm(forms.ModelForm):
     class Meta:
         model = MiUsuarioPersonalizado  # Especifica el modelo al que pertenece el formulario
         fields = ['username', 'email', 'password']  # Especifica los campos que deseas mostrar en el formulario
