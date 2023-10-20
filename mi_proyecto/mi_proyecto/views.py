@@ -404,3 +404,7 @@ def actualizar_orden(request, id):
     else:
         form = OrdenForm(instance=orden)
     return render(request, 'nombre_template_actualizar_orden.html', {'form': form})
+
+#error 404.
+def custom_404_view(request, exception):
+    return render(request, '404.html', {}, status=404)
