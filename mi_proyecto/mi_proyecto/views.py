@@ -147,8 +147,23 @@ def listar_pagos(request):
     return render(request, 'nombre_template_listar_pagos.html', context)
 
 def listar_usuarios(request):
+    query = request.GET.get('q')
     usuarios = Usuario.objects.all()
-    return render(request, 'nombre_template_listar_usuarios.html', {'usuarios': usuarios})
+
+    if query:
+        usuarios = usuarios.filter(
+            Q(nombre_apellido_usuario__icontains=query) |
+            Q(mail_usuario__icontains=query) |
+            Q(direccion_usuario__icontains=query)
+        )  # <- Cierre del paréntesis
+
+    context = {
+        'usuarios': usuarios,
+        'is_query_empty': not query,
+        'is_query_unsuccessful': query and not usuarios.exists()
+    }
+
+    return render(request, 'nombre_template_listar_usuarios.html', context)
 
 def listar_cancelaciones(request):
     cancelaciones = Cancelacion.objects.all()

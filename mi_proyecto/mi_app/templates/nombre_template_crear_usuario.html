@@ -31,37 +31,37 @@
         box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
         }
         
-    form input[type="text"], 
-    form input[type="email"], 
-    form input[type="password"], 
-    form select {
-        width: 100%;
-        padding: 10px;
-        margin: 5px 0;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-        font-size: 16px;
+        form input[type="text"], 
+        form input[type="email"], 
+        form input[type="password"], 
+        form input[type="number"],
+        form select,
+        form textarea {  
+            width: 100%;
+            padding: 10px 15px; 
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
         }
         
-    form input[name="status"],
-    form input[name="edad_repartidor"] {
-        width: 100%;
-        padding: 10px;
-        margin: 5px 0;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-        font-size: 16px;
+        form input.special-input {
+            background-color: #f5f5f5;
         }
         
-    form input[type="text"],
-    form input[type="email"],
-    form input[type="password"], 
-    form input[type="number"],
-    form input[type="text"].status-input {
-        padding-left: 15px;
-        padding-right: 15px;
+        form button, form input[type="submit"] {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        form button:hover, form input[type="submit"]:hover {
+            background-color: #ff4d4d; 
         }
         
     .btn-guardar-usuario {
