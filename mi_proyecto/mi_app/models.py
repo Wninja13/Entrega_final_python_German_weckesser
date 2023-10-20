@@ -90,10 +90,10 @@ class Cancelacion(models.Model):
         ('Cancelacion de la tienda', 'Cancelacion de la tienda'),
     ]
 
-    motivo_cancel = models.CharField(max_length=50, choices=MOTIVO_CANCEL_CHOICES)
-    costo_cancel = models.IntegerField()
-    fecha_cancel = models.DateField()
-    hora_cancel = models.TimeField()
+    motivo_cancelacion = models.CharField(max_length=50, choices=MOTIVO_CANCEL_CHOICES)
+    costo_cancelacion = models.IntegerField()
+    fecha_cancelacion = models.DateField()
+    hora_cancelacion = models.TimeField()
 
     def __str__(self):
         return f"Cancelación {self.id} - {self.motivo_cancel}"

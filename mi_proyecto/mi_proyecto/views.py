@@ -166,8 +166,24 @@ def listar_usuarios(request):
     return render(request, 'nombre_template_listar_usuarios.html', context)
 
 def listar_cancelaciones(request):
+    query = request.GET.get('q')
     cancelaciones = Cancelacion.objects.all()
-    return render(request, 'nombre_template_listar_cancelaciones.html', {'cancelaciones': cancelaciones})
+
+    if query:
+        cancelaciones = cancelaciones.filter(
+            Q(motivo_cancelacion__icontains=query) |
+            Q(costo_cancelacion__icontains=query) | 
+            Q(fecha_cancelacion__icontains=query) | 
+            Q(hora_cancelacion__icontains=query)
+        )  # <- Cierre del paréntesis
+
+    context = {
+        'cancelaciones': cancelaciones,
+        'is_query_empty': not query,
+        'is_query_unsuccessful': query and not cancelaciones.exists()
+    }
+
+    return render(request, 'nombre_template_listar_cancelaciones.html', context)
 
 def listar_ordenes(request):
     ordenes = Orden.objects.all()
