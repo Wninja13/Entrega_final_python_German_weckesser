@@ -96,7 +96,7 @@ class Cancelacion(models.Model):
     hora_cancelacion = models.TimeField()
 
     def __str__(self):
-        return f"Cancelación {self.id} - {self.motivo_cancel}"
+        return f"Cancelación {self.id} - {self.motivo_cancelacion}"
     
 class Orden(models.Model):
     STATUS_ORDEN_CHOICES = [
@@ -109,7 +109,7 @@ class Orden(models.Model):
     id_producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     id_pago = models.OneToOneField(Pago, on_delete=models.CASCADE)
     id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    id_cancel = models.ForeignKey(Cancelacion, on_delete=models.CASCADE)
+    id_cancel = models.ForeignKey(Cancelacion, on_delete=models.CASCADE, null=True, blank=True)
     fecha_orden = models.DateField()
     status_orden = models.CharField(max_length=20, choices=STATUS_ORDEN_CHOICES)
     hora_entrega_orden = models.TimeField()

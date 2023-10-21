@@ -186,8 +186,28 @@ def listar_cancelaciones(request):
     return render(request, 'nombre_template_listar_cancelaciones.html', context)
 
 def listar_ordenes(request):
+    query = request.GET.get('q')
     ordenes = Orden.objects.all()
-    return render(request, 'nombre_template_listar_ordenes.html', {'ordenes': ordenes})
+
+    if query:
+        ordenes = ordenes.filter(
+            Q(id_repartidor__nombre_apellido_repartidor__icontains=query) |  
+            Q(id_tienda__nombre_tienda__icontains=query) |                     
+            Q(id_producto__nombre_producto__icontains=query) |                 
+            Q(id_pago__metodo_pago__icontains=query) |                         
+            Q(id_usuario__username__icontains=query) |                      
+            Q(id_cancel__razon_cancelacion__icontains=query) |                 
+            Q(status_orden__icontains=query) |                                 
+            Q(fecha_orden__icontains=query)                                    
+        )
+
+    context = {
+        'ordenes': ordenes,
+        'is_query_empty': not query,
+        'is_query_unsuccessful': query and not ordenes.exists()
+    }
+    
+    return render(request, 'nombre_template_listar_ordenes.html', context)
 #Fin seccion de listado de modelos. 
 
 #Funciones de creacion de modelos. 

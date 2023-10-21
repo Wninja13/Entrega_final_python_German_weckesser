@@ -1,0 +1,261 @@
+{% extends "plantilla_base.html" %}
+
+{% block content %}
+<div class="container text-center">
+    <form method="GET" action="{% url 'nombre_url_listar_ordenes' %}" class="search-form">
+        <input type="text" name="q" placeholder="Buscar por repartidor, tienda, producto..." class="search-input" value="{{ request.GET.q }}">
+        <button type="submit" class="btn-buscar">Buscar</button>
+        {% if request.GET.q %}
+        <a href="{% url 'nombre_url_listar_ordenes' %}" class="btn-limpiar-busqueda">Limpiar búsqueda</a>
+        {% endif %}
+    </form>
+</div>
+<a href="{% url 'nombre_url_crear_orden' %}" class="btn-estilo">Crear Nueva Orden</a>
+<h1 class="titulo-listar">Listado de Ordenes</h1>
+<!-- Tarjetas para ordenes -->
+<div class="container">
+    {% for orden in ordenes %}
+    <div class="card">
+        <!-- Puedes añadir una imagen relacionada con las órdenes, por ejemplo, una imagen de paquete o caja -->
+        <img src="https://cdn0.iconfinder.com/data/icons/work-from-home-18/512/FoodDelivery-food-delivery-meal-order-256.png" class="card-img-top" alt="{{ orden.status_orden }}">
+        <div class="card-body">
+            <p>Repartidor: {{ orden.id_repartidor.nombre_apellido_repartidor }}</p>
+            <p>Tienda: {{ orden.id_tienda.denominacion_social_tienda }}</p>
+            <p>Producto: {{ orden.id_producto.nombre_producto }}</p>
+            <p>Método de Pago: {{ orden.id_pago.metodo_pago }}</p>
+            <p>Usuario: {{ orden.id_usuario.nombre_apellido_usuario }}</p>
+            <p>Razón Cancelación: {% if orden.id_cancel %}{{ orden.id_cancel.motivo_cancelacion }}{% else %}N/A{% endif %}</p>
+            <p>Fecha Orden: {{ orden.fecha_orden }}</p>
+            <p>Status Orden: {{ orden.status_orden }}</p>
+            <a href="{% url 'actualizar_orden' orden.id %}" class="btn-editar">Editar</a>
+            <a href="{% url 'eliminar_orden' orden.id %}" class="btn-eliminar">Eliminar</a>
+        </div>
+    </div>
+    {% endfor %}
+    {% if is_query_empty %}
+    <!-- Puedes mostrar un mensaje o imagen diferente aquí si la búsqueda no se ha realizado -->
+    {% endif %}
+    {% if is_query_unsuccessful %}
+        <div class="no-result-container text-center">
+            <img class="no-result-image" src="https://drive.google.com/uc?export=view&id=1s0RtpUPBDJAToSwjRTK0EhRkz5BFSBKI">
+            <p class="no-result-text mensaje-error">Parece que no hemos encontrado lo que buscas. Vuelve a intentarlo.</p>    
+        </div>
+    {% endif %}
+</div>
+<style>
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+        align-items: center;
+    }
+    
+    .search-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .search-form {
+        display: flex;
+        align-items: center;
+    }
+    
+    .search-input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px 5px 5px 5px;
+        font-size: 16px;
+        max-width: 300px;
+    }
+    
+    .search-input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px 5px 5px 5px;
+        font-size: 16px;
+        max-width: 300px;
+    }
+    
+    .btn-buscar {
+        padding: 10px 20px;
+        background-color: #FF5D3E;
+        color: white;
+        border: none;
+        border-radius: 5px 5px 5px 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-left: 10px; 
+    }
+    
+    .btn-buscar:hover {
+        background-color: #E64A29;
+    }
+    
+    .repartidores-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: 0.3s;
+        background-color: #f9f9f9;
+    }
+    
+    .card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        transform: scale(1.05);
+    }
+    
+    .card-img-top {
+        width: 100%;
+        height: 150px;
+        object-fit: contain;
+        border-radius: 10px 10px 0 0;
+        margin-top: 10px;
+    }
+    
+    .card-body {
+        padding: 20px;
+        margin-top: 10px;
+        line-height: 1.5;
+        border: none; 
+        border-radius: 0 0 10px 10px;
+    }
+    
+    .titulo-listar {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 2.5em;
+        font-family: 'Roboto', sans-serif;
+        font-weight:400;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        font-weight: bold;
+        color: #333;
+    }
+    
+    .btn-editar {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        width: 50%;
+        background-color: #FF5D3E;
+        color: white;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        font-size: 16px;
+    }
+    
+    .btn-editar:hover {
+        background-color: #E64A29;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn-eliminar {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        width: 50%;
+        background-color: #FF5D3E;
+        color: white;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        font-size: 16px;
+    }
+    
+    .btn-eliminar:hover {
+        background-color: #E64A29;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn-estilo {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        width: 15%;
+        background-color: #FF5D3E;
+        color: white;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        font-size: 16px;
+    }
+    
+    .btn-estilo:hover {
+        background-color: #E64A29;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn-limpiar-busqueda {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        width: 25%;
+        height:10%;
+        background-color: #FF5D3E;
+        color: white;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        font-size: 16px;
+    }
+    
+    .btn-limpiar-busqueda:hover {
+        background-color: #E64A29;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .no-result-container {
+        margin-top: 40px;
+        display: flex;            
+        flex-direction: column;   
+        align-items: center;      
+        justify-content: center;  
+    }
+    
+    .no-result-image {
+        width: 500px; 
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+    }
+    
+    .no-result-text {
+        font-size: 1.2em;
+        color: #777;
+        font-style: italic;
+        font-family: 'Roboto', sans-serif;
+        text-align: center;
+    }
+    
+    .mensaje-error {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        margin-top: 10px;
+    }   
+    </style>
+
+{% endblock %}
