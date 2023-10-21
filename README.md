@@ -28,13 +28,6 @@ Este proyecto tiene por finalidad poner a prueba las utilidades que posee Django
     
     git clone https://github.com/Wninja13/pre_entrega_3_django.git
     cd pre_entrega_3_django\mi_proyecto
-    git checkout Navbar-terminado
-
-**Es importante mencionar que debe hacerse los siguientes pasos para poder utilizar el último código:** 
-
-    1.- Debe clonarse el repositorio con el link anterior. 
-    2.- utilizamos el comando $ git ckeckout Navbar-terminado. De esta manera se copiaran los archivos de la rama.
-   
 
 3.2.- **Configurar el entorno virtual**
     
@@ -42,17 +35,14 @@ Este proyecto tiene por finalidad poner a prueba las utilidades que posee Django
     - python -m venv venv
     - source venv/bin/activate  # En Windows: venv\Scripts\activate
     
-
 3.3.- **Instalar las dependencias**
     
     En cd pre_entrega_3_django\mi_proyecto pip install django.
     
-
 3.4.- **Realizar las migraciones**
     
     En cd pre_entrega_3_django\mi_proyecto python manage.py migrate
     
-
 ## 4.- Uso
 
 4.1.- **Iniciar el servidor de desarrollo**
