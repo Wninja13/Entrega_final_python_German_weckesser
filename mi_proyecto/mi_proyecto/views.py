@@ -1,39 +1,251 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from mi_app.models import Repartidor, Tienda, Producto, Pago, Usuario, Cancelacion, Orden
-from mi_app.forms import RepartidorForm, TiendaForm, ProductoForm, PagoForm, UsuarioForm, CancelacionForm, OrdenForm
+from mi_app.forms import RepartidorForm, TiendaForm, ProductoForm, PagoForm, UsuarioForm, CancelacionForm, OrdenForm,LoginForm
+from django.db.models import Q
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from mi_app.forms import LoginForm 
+from mi_app.forms import PerfilForm
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 #homepage
 def homepage(request): 
     return render(request, 'homepage.html')
 
+#Login usuarios y creación. 
+def login_usuario(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)  # Crear una instancia del formulario con los datos del POST
+        if form.is_valid():
+            username = form.cleaned_data['login_username']
+            password = form.cleaned_data['login_password']
+            user = authenticate(request, username=username, password=password)
+            
+            if user is not None:
+                login(request, user)
+                return redirect('homepage')
+            else:
+                messages.error(request, 'Nombre de usuario o contraseña incorrectos')
+    else:
+        form = LoginForm()  # Crear una instancia vacía del formulario si no es una solicitud POST
+    
+    return render(request, 'login_usuarios.html', {'form': form})
+
+def crear_user(request):
+    if request.method == 'POST':
+        # Verificar qué formulario se envió
+        if 'username' in request.POST:  # Es el formulario de creación
+            username = request.POST['username']
+            email = request.POST['email']
+            password1 = request.POST['password1']
+            password2 = request.POST['password2']
+
+            if password1 == password2:
+                if User.objects.filter(username=username).exists():
+                    messages.error(request, 'El nombre de usuario ya existe.')
+                elif User.objects.filter(email=email).exists():
+                    messages.error(request, 'El correo electrónico ya está registrado.')
+                else:
+                    user = User.objects.create_user(username=username, email=email, password=password1)
+                    user.save()
+                    messages.success(request, 'Usuario creado con éxito.')
+                    return redirect('login_usuario')
+            else:
+                messages.error(request, 'Las contraseñas no coinciden.')
+
+        elif 'login-username' in request.POST:  # Es el formulario de inicio de sesión
+            login_username = request.POST['login-username']
+            login_password = request.POST['login-password']
+            
+            user = authenticate(request, username=login_username, password=login_password)
+
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Inicio de sesión exitoso.')
+                return redirect('home')  # Redirige a la página principal después de iniciar sesión
+            else:
+                messages.error(request, 'Nombre de usuario o contraseña incorrectos.')
+
+    return render(request, 'login_usuarios.html')  # Reemplaza 'nombre_de_tu_template.html' con el nombre de tu archivo HTML.
+
+def editar_perfil(request):
+    if request.method == 'POST':
+        form = PerfilForm(request.POST, instance=request.user.profile)
+
+        if form.is_valid():
+            form.save()
+            # Redirige a una página de éxito o a donde desees después de editar el perfil
+            return redirect('perfil_exitoso')  # Reemplaza 'perfil_exitoso' con el nombre de tu URL de éxito
+    else:
+        form = PerfilForm(instance=request.user.profile)
+
+    return render(request, 'nombre_template_editar_perfil.html', {'form': form})
+
+def editar_perfil(request):
+    # Recupera el perfil del usuario actual
+    perfil = request.user.profile
+
+    if request.method == 'POST':
+        # Si se envía un formulario, procesa los datos
+        form = PerfilForm(request.POST, request.FILES, instance=perfil)
+        if form.is_valid():
+            form.save()
+            return redirect('nombre_template_crear_usuario')  # Reemplaza 'nombre_template_crear_usuario' con la URL a la vista de perfil
+    else:
+        # Si es una solicitud GET, muestra el formulario para editar el perfil
+        form = PerfilForm(instance=perfil)
+
+    return render(request, 'nombre_template_editar_perfil.html', {'form': form})
+
+def cerrar_sesion(request):
+    logout(request)
+    # Redirecciona a la página de inicio o a donde desees después de cerrar sesión
+    return redirect('nombre_de_la_vista_o_URL')
+
 #Funciones de listado de los modelos. 
 def listar_repartidores(request):
+    query = request.GET.get('q')
     repartidores = Repartidor.objects.all()
-    return render(request, 'nombre_template_listar_repartidores.html', {'repartidores': repartidores})
+
+    if query:
+        repartidores = repartidores.filter(
+            Q(nombre_apellido_repartidor__icontains=query) |
+            Q(mail_repartidor__icontains=query) |
+            Q(direccion_repartidor__icontains=query)
+        )
+    context = {
+        'repartidores': repartidores,
+        'is_query_empty': not query,
+        'is_query_unsuccessful': query and not repartidores.exists()
+    }
+    
+    return render(request, 'nombre_template_listar_repartidores.html', context)
 
 def listar_tiendas(request):
+    query = request.GET.get('q')
     tiendas = Tienda.objects.all()
-    return render(request, 'nombre_template_listar_tiendas.html', {'tiendas': tiendas})
+
+    if query:
+        tiendas = tiendas.filter(
+            Q(titular_tienda__icontains=query) |
+            Q(denominacion_social_tienda__icontains=query) |
+            Q(direccion_tienda__icontains=query) |
+            Q(telefono_tienda__icontains=query) |  
+            Q(zona_tienda__icontains=query) |
+            Q(mail_tienda__icontains=query)
+        )
+
+    context = {
+        'tiendas': tiendas,
+        'is_query_empty': not query,
+        'is_query_unsuccessful': query and not tiendas.exists()
+    }
+    
+    return render(request, 'nombre_template_listar_tiendas.html', context)
 
 def listar_productos(request):
+    query = request.GET.get('q')
     productos = Producto.objects.all()
-    return render(request, 'nombre_template_listar_productos.html', {'productos': productos})
+
+    if query:
+        productos = productos.filter(
+            Q(nombre_producto__icontains=query) |
+            Q(precio__iexact=query) |
+            Q(categoria__icontains=query)
+        )
+
+    context = {
+        'productos': productos,
+        'is_query_empty': not query,
+        'is_query_unsuccessful': query and not productos.exists()
+    }
+    
+    return render(request, 'nombre_template_listar_productos.html', context)
 
 def listar_pagos(request):
+    query = request.GET.get('q')
     pagos = Pago.objects.all()
-    return render(request, 'nombre_template_listar_pagos.html', {'pagos': pagos})
+
+    if query:
+        pagos = pagos.filter(
+            Q(metodo_pago__icontains=query) |
+            Q(monto__iexact=query) | 
+            Q(fecha_pago__icontains=str(query))
+        )
+
+    context = {
+        'pagos': pagos,
+        'is_query_empty': not query,
+        'is_query_unsuccessful': query and not pagos.exists()
+    }
+    
+    return render(request, 'nombre_template_listar_pagos.html', context)
 
 def listar_usuarios(request):
+    query = request.GET.get('q')
     usuarios = Usuario.objects.all()
-    return render(request, 'nombre_template_listar_usuarios.html', {'usuarios': usuarios})
+
+    if query:
+        usuarios = usuarios.filter(
+            Q(nombre_apellido_usuario__icontains=query) |
+            Q(mail_usuario__icontains=query) |
+            Q(direccion_usuario__icontains=query)
+        )  # <- Cierre del paréntesis
+
+    context = {
+        'usuarios': usuarios,
+        'is_query_empty': not query,
+        'is_query_unsuccessful': query and not usuarios.exists()
+    }
+
+    return render(request, 'nombre_template_listar_usuarios.html', context)
 
 def listar_cancelaciones(request):
+    query = request.GET.get('q')
     cancelaciones = Cancelacion.objects.all()
-    return render(request, 'nombre_template_listar_cancelaciones.html', {'cancelaciones': cancelaciones})
+
+    if query:
+        cancelaciones = cancelaciones.filter(
+            Q(motivo_cancelacion__icontains=query) |
+            Q(costo_cancelacion__icontains=query) | 
+            Q(fecha_cancelacion__icontains=query) | 
+            Q(hora_cancelacion__icontains=query)
+        )  # <- Cierre del paréntesis
+
+    context = {
+        'cancelaciones': cancelaciones,
+        'is_query_empty': not query,
+        'is_query_unsuccessful': query and not cancelaciones.exists()
+    }
+
+    return render(request, 'nombre_template_listar_cancelaciones.html', context)
 
 def listar_ordenes(request):
+    query = request.GET.get('q')
     ordenes = Orden.objects.all()
-    return render(request, 'nombre_template_listar_ordenes.html', {'ordenes': ordenes})
+
+    if query:
+        ordenes = ordenes.filter(
+            Q(id_repartidor__nombre_apellido_repartidor__icontains=query) |  
+            Q(id_tienda__nombre_tienda__icontains=query) |                     
+            Q(id_producto__nombre_producto__icontains=query) |                 
+            Q(id_pago__metodo_pago__icontains=query) |                         
+            Q(id_usuario__username__icontains=query) |                      
+            Q(id_cancel__razon_cancelacion__icontains=query) |                 
+            Q(status_orden__icontains=query) |                                 
+            Q(fecha_orden__icontains=query)                                    
+        )
+
+    context = {
+        'ordenes': ordenes,
+        'is_query_empty': not query,
+        'is_query_unsuccessful': query and not ordenes.exists()
+    }
+    
+    return render(request, 'nombre_template_listar_ordenes.html', context)
 #Fin seccion de listado de modelos. 
 
 #Funciones de creacion de modelos. 
@@ -166,43 +378,6 @@ def eliminar_orden(request, id):
     return render(request, 'nombre_template_eliminar_orden.html', {'orden': orden})
 #fin seccion eliminacion. 
 
-#Seccion funciones de visualización. 
-#Visualización repartidor
-def visualizar_repartidor(request, id):
-    repartidor = get_object_or_404(Repartidor, id=id)
-    return render(request, 'nombre_template_visualizar_repartidor.html', {'repartidor': repartidor})
-
-#Visualización Tienda
-def visualizar_tienda(request, id):
-    tienda = get_object_or_404(Tienda, id=id)
-    return render(request, 'nombre_template_visualizar_tienda.html', {'tienda': tienda})
-
-#Visualización Producto. 
-def visualizar_producto(request, id):
-    producto = get_object_or_404(Producto, id=id)
-    return render(request, 'nombre_template_visualizar_producto.html', {'producto': producto})
-
-#Visualización Pago. 
-def visualizar_pago(request, id):
-    pago = get_object_or_404(Pago, id=id)
-    return render(request, 'nombre_template_visualizar_pago.html', {'pago': pago})
-
-#Visualización Usuario. 
-def visualizar_usuario(request, id):
-    usuario = get_object_or_404(Usuario, id=id)
-    return render(request, 'nombre_template_visualizar_usuario.html', {'usuario': usuario})
-
-#Visualización Cancelación 
-def visualizar_cancelacion(request, id):
-    cancelacion = get_object_or_404(Cancelacion, id=id)
-    return render(request, 'nombre_template_visualizar_cancelacion.html', {'cancelacion': cancelacion})
-
-#Visualización Orden 
-def visualizar_orden(request, id):
-    orden = get_object_or_404(Orden, id=id)
-    return render(request, 'nombre_template_visualizar_orden.html', {'orden': orden})
-#Fin sección funciones visualización. 
-
 #inicio seccion funciones actualización. 
 #Actualización repartidor
 def actualizar_repartidor(request, id):
@@ -287,3 +462,7 @@ def actualizar_orden(request, id):
     else:
         form = OrdenForm(instance=orden)
     return render(request, 'nombre_template_actualizar_orden.html', {'form': form})
+
+#error 404.
+def custom_404_view(request, exception):
+    return render(request, '404.html', {}, status=404)

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <title>Rappi</title>
+    <style>
+        /* Estilos básicos para el navbar */
+
+    *, *::before, *::after {
+            box-sizing: border-box;
+    }
+    
+    body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, div, a, nav {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-family: 'Roboto', sans-serif;
+        font-size: 100%;
+        font-weight:400;
+        vertical-align: baseline;
+    }
+
+    ol, ul {
+        list-style: none;
+    }
+
+    li::marker {
+        content: "";
+    }
+
+    body {
+        line-height: 1;
+        background-color: #EBEBEB;
+        overflow-x:hidden;
+    }
+
+    .navbar {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #FF5941;
+        z-index: 1000; 
+        position: relative; 
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .navbar i {
+        margin-right: 8px;  
+        font-size: 18px;   
+    }
+
+    navbar, .navbar ul{
+        background-color: #FF464E; 
+        overflow:hidden;
+    }
+
+    .navbar a:first-child {
+        margin-right: 11px;
+    }
+
+    .navbar a, .navbar div {
+        background-color:#FF5D3E;
+        background: linear-gradient(45deg, #FF5D3E, #FF7459);
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        margin: 0;
+        cursor: pointer;
+        list-style:none;
+        border-radius: 5px; 
+        box-shadow: 0px -2px 3px rgba(0,0,0,0.3), 0px 2px 4px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+
+    .navbar a:hover, .navbar div:hover {
+        background-color: #E64A29;
+        color: white;
+        box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+        transform: translateY(-2px);
+        background: linear-gradient(45deg, #E64A29, #FF624D);
+    }
+
+    .navbar a:active, .navbar div:active {
+        box-shadow: none;  
+        transform: translateY(1px);
+    }
+
+    .navbar ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        background-color: #333;
+    }
+
+    .navbar li {
+        margin: 0;
+        position: relative;
+        margin-right: 10px;
+    }
+
+    .navbar li:last-child {
+        margin-right: 0;
+    }
+
+    .navbar li:hover > ul {
+    display: flex;
+    flex-direction: column;
+    align-items:center; 
+    padding:0;
+    margin:0;
+    }
+
+    .navbar li ul {
+        margin:0px; 
+        padding:5px;
+        list-style-type: none;
+        display: none;
+        position: absolute;
+        z-index: 1001;
+        top: 100%;
+        left: 0;
+        background-color: #FF5D3E;
+        min-width: 100px;
+        border-radius:5px;
+        animation: fadeInDown 0.3s ease-out forwards;
+    }
+
+    .navbar li ul li {
+        margin:0px;
+        padding:5px;
+        display:flex;
+    }
+
+    .navbar li ul li a {
+        padding: 10px 15px;
+        display: block;
+        white-space: nowrap;
+    }
+
+    .navbar li ul li a:hover {
+        background-color: #111;
+    }
+
+    #navbarLogo {
+        height: 100px; 
+        margin-left: auto;
+        padding:10px;
+    }
+    
+    .landing-section {
+        display: flex;
+        align-items: center;
+        height: calc(100vh + 150px);
+        width: 100%; 
+        position: relative; 
+    }
+    
+    .landing-image {
+        width: 100%;  
+        height: 100%;
+        object-fit: ;
+        display: block;
+        margin: 0 auto;
+        z-index:-10;
+    }
+    .welcome-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 2.5em;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+        background: rgba(255, 93, 62, 0.8);
+        border-radius: 15px;
+        padding: 20px 40px;
+        line-height: 1.4;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+    
+        /* Efecto hover */
+        &:hover {
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+        }
+    
+        /* Efecto de animación inicial para llamar la atención */
+        animation: popIn 0.8s ease-out forwards;
+    }
+    
+    @keyframes popIn {
+        0% {
+            transform: translate(-50%, -50%) scale(0.9);
+            opacity: 0.5;
+        }
+        100% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+    }
+    @keyframes fadeInDown {
+        0% {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="{% url 'homepage' %}">Home</a>
+        <li>
+            <div>Repartidores</div>
+            <ul>
+                <li><a href="{% url 'nombre_url_listar_repartidores' %}">Listar</a></li>
+                <li><a href="{% url 'nombre_url_crear_repartidor' %}">Crear</a></li>          
+            </ul>
+        </li>
+        <li>
+            <div>Tiendas</div>
+            <ul>
+                <li><a href="{% url 'nombre_url_listar_tiendas' %}">Listar</a></li>
+                <li><a href="{% url 'nombre_url_crear_tienda' %}">Crear</a></li>
+            </ul>
+        </li>
+        <li>
+            <div>Productos</div>
+            <ul>
+                <li><a href="{% url 'nombre_url_listar_productos' %}">Listar</a></li>
+                <li><a href="{% url 'nombre_url_crear_producto' %}">Crear</a></li>
+            </ul>
+        </li>
+        <li>
+            <div>Pagos</div>
+            <ul>
+                <li><a href="{% url 'nombre_url_listar_pagos' %}">Listar</a></li>
+                <li><a href="{% url 'nombre_url_crear_pago' %}">Crear</a></li>
+            </ul>
+        </li>
+        <li>
+            <div>Usuarios</div>
+            <ul>
+                <li><a href="{% url 'nombre_url_listar_usuarios' %}">Listar</a></li>
+                <li><a href="{% url 'nombre_url_crear_usuario' %}">Crear</a></li>
+            </ul>
+        </li>
+        <li>
+            <div>Cancelaciones</div>
+            <ul>
+                <li><a href="{% url 'nombre_url_listar_cancelaciones' %}">Listar</a></li>
+                <li><a href="{% url 'nombre_url_crear_cancelacion' %}">Crear</a></li>
+            </ul>
+        </li>
+        <li>
+            <div>Ordenes</div>
+            <ul>
+                <li><a href="{% url 'nombre_url_listar_ordenes' %}">Listar</a></li>
+                <li><a href="{% url 'nombre_url_crear_orden' %}">Crear</a></li>
+            </ul>
+        </li>
+        <a href="{% url 'login_usuario' %}">Login/Crear usuario</a>
+        <!-- ... otros links ... -->
+        <img src="https://yt3.googleusercontent.com/dSVUGeHE-K-PatzviC_0dkWB-Q5iEajkProR5YOIMWV0YYPGqTASMFVwWr9TMup_vnV9_X3M=s900-c-k-c0x00ffffff-no-rj" alt="Logo" id="navbarLogo">
+    </nav>
+    {% block content %}
+    {% endblock content %}
+</body>
+</html>

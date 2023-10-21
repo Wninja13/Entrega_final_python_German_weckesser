@@ -18,7 +18,6 @@
         border: 0;
         font-family: 'Roboto', sans-serif;
         font-size: 100%;
-        font: inherit;
         vertical-align: baseline;
     }
 
@@ -186,6 +185,7 @@
         box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
         transition: transform 0.3s ease;
     
+    
         /* Efecto hover */
         &:hover {
             transform: translate(-50%, -50%) scale(1.05);
@@ -216,7 +216,61 @@
             transform: translateY(0);
         }
     }
+    .about-section {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        padding: 30px 0;
+        border-radius: 8px;
+        margin: 20px 0;
+    }
     
+    .profile-image-container {
+        flex-basis: 30%;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .profile-image {
+        width: 100%;
+        height: auto;
+        transition: transform 0.3s ease;
+        border-radius: 50%;
+        border: 3px solid #FF5941;
+        box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .profile-image:hover {
+        transform: scale(1.05);
+    }
+    
+    .profile-description {
+        flex-basis: 65%;
+        background-color: #EBEBEB;
+        padding: 30px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .profile-description h2, .profile-description h3 {
+        font-size: 24px;
+        margin-bottom: 16px;
+        border-bottom: 2px solid #FF5941;
+        padding-bottom: 10px;
+        font-weight: bold;
+    }
+    
+    .profile-description p {
+        text-align: justify;
+        font-size: 16px;
+        margin-bottom: 20px;
+        line-height: 1.6;
+        text-indent: 30px;
+        font-weight: 500;
+    }
 
     </style>
 </head>
@@ -228,57 +282,52 @@
             <div>Repartidores</div>
             <ul>
                 <li><a href="{% url 'nombre_url_listar_repartidores' %}">Listar</a></li>
-                <li><a href="{% url 'crear_repartidor' %}">Crear</a></li>
-                <li><a href="#">Visualizar</a></li> <!-- Para la visualización, generalmente necesitas seleccionar un repartidor específico,así que puedes no tener un enlace directo aquí, o puedes dirigir a una página que liste todos los repartidores y permita seleccionar uno para visualizarlo -->
-                <li><a href="#">Editar</a></li>
-                <!-- Similar a visualizar, editar un repartidor necesita saber qué repartidor editar, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál repartidor desea editar -->
-                <li><a href="#">Eliminar</a></li>
-                <!-- Similar a visualizar y editar, eliminar requiere seleccionar un repartidor específico, así que podrías llevar al usuario a una página de lista donde puede seleccionar cuál 
-                repartidor desea eliminar -->           
+                <li><a href="{% url 'nombre_url_crear_repartidor' %}">Crear</a></li>        
             </ul>
         </li>
         <li>
             <div>Tiendas</div>
             <ul>
                 <li><a href="{% url 'nombre_url_listar_tiendas' %}">Listar</a></li>
-                <!-- Agrega aquí los otros links relacionados a tiendas -->
+                <li><a href="{% url 'nombre_url_crear_tienda' %}">Crear</a></li>
             </ul>
         </li>
         <li>
             <div>Productos</div>
             <ul>
                 <li><a href="{% url 'nombre_url_listar_productos' %}">Listar</a></li>
-                <!-- Agrega aquí los otros links relacionados a productos -->
+                <li><a href="{% url 'nombre_url_crear_producto' %}">Crear</a></li>
             </ul>
         </li>
         <li>
             <div>Pagos</div>
             <ul>
                 <li><a href="{% url 'nombre_url_listar_pagos' %}">Listar</a></li>
-                <!-- Agrega aquí los otros links relacionados a pagos -->
+                <li><a href="{% url 'nombre_url_crear_pago' %}">Crear</a></li>
             </ul>
         </li>
         <li>
             <div>Usuarios</div>
             <ul>
                 <li><a href="{% url 'nombre_url_listar_usuarios' %}">Listar</a></li>
-                <!-- Agrega aquí los otros links relacionados a usuarios -->
+                <li><a href="{% url 'nombre_url_crear_usuario' %}">Crear</a></li>
             </ul>
         </li>
         <li>
             <div>Cancelaciones</div>
             <ul>
                 <li><a href="{% url 'nombre_url_listar_cancelaciones' %}">Listar</a></li>
-                <!-- Agrega aquí los otros links relacionados a cancelaciones -->
+                <li><a href="{% url 'nombre_url_crear_cancelacion' %}">Crear</a></li>
             </ul>
         </li>
         <li>
             <div>Ordenes</div>
             <ul>
                 <li><a href="{% url 'nombre_url_listar_ordenes' %}">Listar</a></li>
-                <!-- Agrega aquí los otros links relacionados a ordenes -->
+                <li><a href="{% url 'nombre_url_crear_orden' %}">Crear</a></li>
             </ul>
         </li>
+        <a href="{% url 'login_usuario' %}">Login/Crear usuario</a>
         <!-- ... otros links ... -->
         <img src="https://yt3.googleusercontent.com/dSVUGeHE-K-PatzviC_0dkWB-Q5iEajkProR5YOIMWV0YYPGqTASMFVwWr9TMup_vnV9_X3M=s900-c-k-c0x00ffffff-no-rj" alt="Logo" id="navbarLogo">
     </nav>
@@ -288,6 +337,28 @@
             ¡Bienvenido a Nuestra Plataforma!
         </div>
     </div>
+    <section class="about-section">
+        <div class="profile-image-container">
+            <!-- Recuerda reemplazar este enlace de la imagen por el enlace real de tu foto -->
+            <img src="https://drive.google.com/uc?export=view&id=196EQIl8zoD4EidAOsTRPKCdUQGHfZ3Hh" alt="Foto de German G. Weckessser" class="profile-image">
+        </div>
+        <div class="profile-description">
+            <h2>Acerca de mí:</h2>
+            <p>
+                ¡Hola! Mi nombre es German G. Weckessser. Aunque mi formación principal se basa en el ámbito jurídico como abogado, siempre he sentido una inclinación y pasión hacia el mundo tecnológico, y en particular, hacia el desarrollo de software. En este viaje de autodescubrimiento y aprendizaje, decidí sumergirme en el universo de la programación, buscando converger mis habilidades analíticas adquiridas en el derecho con la lógica y creatividad del código.
+            </p>
+            <h3>Sobre el Proyecto:</h3>
+            <p>
+                Inspirado en la dinámica y disruptiva industria de las entregas a domicilio, desarrollé un proyecto centrado en visualizar datos relacionados con una empresa que simula ser similar a Rappi. No solo fue un desafío construir la base de datos desde cero, con un diseño hecho íntegramente en SQL, sino que además, la transición de esos modelos a Django me ofreció una perspectiva más amplia sobre cómo se interconectan y representan los datos en el entorno web.
+            </p>
+            <p>
+                El corazón de este proyecto radica en su funcionalidad CRUD (Crear, Leer, Actualizar y Eliminar). Esta característica esencial permite una interacción fluida y dinámica con la base de datos, ofreciendo a los usuarios la posibilidad de modificar la información de manera eficiente y en tiempo real. Django, siendo un framework robusto y versátil, se convirtió en la herramienta perfecta para plasmar mi visión, estructurando las tablas y estableciendo relaciones precisas entre ellas.
+            </p>
+            <p>
+                Este proyecto, más allá de su funcionalidad técnica, representa mi compromiso y determinación para aventurarme fuera de mi zona de confort. Estoy convencido de que el derecho y la tecnología no son mundos apartados, sino que pueden entrelazarse para crear soluciones innovadoras y eficientes. Espero que este proyecto sea solo el inicio de una larga y fructífera travesía en el ámbito de la programación. ¡Gracias por tomarte el tiempo de conocer un poco más sobre mí y mi trabajo!
+            </p>
+        </div>
+    </section>
     {% block content %}{% endblock %}
 </body>
 

@@ -1,0 +1,261 @@
+{% extends "plantilla_base.html" %} 
+
+{% block content %}
+<div class="container text-center">
+    <form method="GET" action="{% url 'nombre_url_listar_repartidores' %}" class="search-form">
+        <input type="text" name="q" placeholder="Buscar por nombre, correo, dirección..." class="search-input" value="{{ request.GET.q }}">
+        <button type="submit" class="btn-buscar">Buscar</button>
+        {% if request.GET.q %}
+        <a href="{% url 'nombre_url_listar_repartidores' %}" class="btn-limpiar-busqueda">Limpiar búsqueda</a>
+        {% endif %}
+    </form>
+</div>
+<a href="{% url 'nombre_url_crear_repartidor' %}" class="btn-estilo">Crear Nuevo Repartidor</a>
+<h1 class="titulo-listar">Listado de Repartidores</h1>
+<!-- Tarjetas para repartidores -->
+<div class="container">
+    {% for repartidor in repartidores %}
+    <div class="card">
+        <img src="https://cdn2.iconfinder.com/data/icons/general-pack-3/24/Unknown_User-256.png" class="card-img-top" alt="{{ repartidor.nombre_apellido_repartidor }}">
+        <div class="card-body">
+            <p>Nombre: {{ repartidor.nombre_apellido_repartidor}}</p>
+            <p>Email: {{ repartidor.mail_repartidor }}</p>
+            <p>Dirección: {{ repartidor.direccion_repartidor }}</p>
+            <p>Fecha de Nacimiento: {{ repartidor.fecha_nacimiento_repartidor }}</p>
+            <p>Fecha de Registro: {{ repartidor.fecha_registro_repartidor }}</p>
+            <p>Edad: {{ repartidor.edad_repartidor }}</p>
+            <p>Género: {{ repartidor.genero }}</p>
+            <a href="{% url 'actualizar_repartidor' repartidor.id %}" class="btn-editar">Editar</a>
+            <a href="{% url 'eliminar_repartidor' repartidor.id %}" class="btn-eliminar">Eliminar</a>
+        </div>
+    </div>
+    {% endfor %}
+    {% if is_query_empty %}
+    <!-- Puedes mostrar un mensaje o imagen diferente aquí si la búsqueda no se ha realizado -->
+    {% endif %}
+    {% if is_query_unsuccessful %}
+        <div class="no-result-container text-center">
+            <img class="no-result-image" src="https://drive.google.com/uc?export=view&id=1s0RtpUPBDJAToSwjRTK0EhRkz5BFSBKI">
+            <p class="no-result-text mensaje-error">Parece que no hemos encontrado lo que buscas. Vuelve a intentarlo.</p>    
+        </div>
+    {% endif %}
+</div>
+
+<style>
+    /* Estilos para las tarjetas */
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+        align-items: center;
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .search-form {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px 5px 5px 5px;
+        font-size: 16px;
+        max-width: 300px;
+    }
+
+    .search-input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px 5px 5px 5px;
+        font-size: 16px;
+        max-width: 300px;
+    }
+    
+    .btn-buscar {
+        padding: 10px 20px;
+        background-color: #FF5D3E;
+        color: white;
+        border: none;
+        border-radius: 5px 5px 5px 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-left: 10px; 
+    }
+    
+    .btn-buscar:hover {
+        background-color: #E64A29;
+    }
+
+    .repartidores-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: 0.3s;
+        background-color: #f9f9f9;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        transform: scale(1.05);
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 150px;
+        object-fit: contain;
+        border-radius: 10px 10px 0 0;
+        margin-top: 10px;
+    }
+
+    .card-body {
+        padding: 20px;
+        margin-top: 10px;
+        line-height: 1.5;
+        border: none; 
+        border-radius: 0 0 10px 10px;
+    }
+
+    .titulo-listar {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 2.5em;
+        font-family: 'Roboto', sans-serif;
+        font-weight:400;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        font-weight: bold;
+        color: #333;
+    }
+
+    .btn-editar {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        width: 50%;
+        background-color: #FF5D3E;
+        color: white;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        font-size: 16px;
+    }
+
+    .btn-editar:hover {
+        background-color: #E64A29;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-eliminar {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        width: 50%;
+        background-color: #FF5D3E;
+        color: white;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        font-size: 16px;
+    }
+
+    .btn-eliminar:hover {
+        background-color: #E64A29;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-estilo {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        width: 15%;
+        background-color: #FF5D3E;
+        color: white;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        font-size: 16px;
+    }
+
+    .btn-estilo:hover {
+        background-color: #E64A29;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-limpiar-busqueda {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        width: 25%;
+        height:10%;
+        background-color: #FF5D3E;
+        color: white;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        font-size: 16px;
+    }
+    
+    .btn-limpiar-busqueda:hover {
+        background-color: #E64A29;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .no-result-container {
+        margin-top: 40px;
+        display: flex;            /* Habilita flexbox */
+        flex-direction: column;   /* Organiza los hijos (la imagen y el texto) en una columna */
+        align-items: center;      /* Centra los hijos horizontalmente */
+        justify-content: center;  /* Centra los hijos verticalmente */
+    }
+    
+    .no-result-image {
+        width: 500px; 
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+    }
+    
+    .no-result-text {
+        font-size: 1.2em;
+        color: #777;
+        font-style: italic;
+        font-family: 'Roboto', sans-serif;
+        text-align: center; /* Asegura que el texto esté centrado */
+    }
+    
+    .mensaje-error {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        margin-top: 10px;
+    }
+    
+</style>
+{% endblock content %}

@@ -1,0 +1,19 @@
+{% extends "plantilla_base.html" %}
+
+{% block content %}
+<div class="user-profile">
+    <h2>Mi Perfil</h2>
+    <div class="user-info">
+        <div class="user-avatar">
+            <img src="{{ user.profile.avatar.url }}" alt="Foto de perfil">
+        </div>
+        <div class="user-details">
+            <p><strong>Nombre de usuario:</strong> {{ user.username }}</p>
+            <p><strong>Correo Electrónico:</strong> {{ user.email }}</p>
+            <!-- Agrega más detalles del usuario según tus necesidades -->
+        </div>
+    </div>
+    <a href="{% url 'editar_perfil' %}" class="btn-edit-profile">Editar Perfil</a>
+    <a href="{% url 'cerrar_sesion' %}" class="btn-logout">Cerrar Sesión</a>
+</div>
+{% endblock %}

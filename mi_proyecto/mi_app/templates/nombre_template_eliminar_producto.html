@@ -1,0 +1,104 @@
+{% extends "plantilla_base.html" %}
+
+{% block content %}
+<div class="container text-center">
+    <h2 class="titulo-producto">Eliminar Producto</h2>
+    <p class="pregunta">¿Estás seguro de que deseas eliminar el producto {{ producto.nombre_producto }}?</p>
+    
+    <form method="post" class="form-eliminar">
+        {% csrf_token %}
+        <div class="botones">
+            <button type="submit" class="btn-eliminar">Eliminar</button>
+            <a href="{% url 'nombre_url_listar_productos' %}" class="btn-cancelar">Cancelar</a>
+        </div>
+    </form>
+</div>
+<style>
+    .titulo-producto {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 2.5em;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        font-weight: bold;
+        color: #333;
+    }
+    
+    .pregunta {
+        font-size: 1.5em;
+        font-family: 'Roboto', sans-serif;
+        margin: 20px 0;
+        color: #555;
+        text-align: center;
+    }
+    
+    form.form-eliminar {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #FFFFFF;
+        border-radius: 5px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .botones {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"],
+    form select,
+    form input[name="status"],
+    form input[name="edad_repartidor"] {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+    
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"],
+    form input[type="number"],
+    form input[type="text"].status-input {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .btn-actualizar,
+    .btn-eliminar,
+    .btn-cancelar {
+        display: block;
+        margin: 5px;
+        padding: 10px;
+        width: 80%;
+        background-color: #FF5D3E;
+        color: white;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        font-size: 16px;
+    }
+    
+    .btn-actualizar:hover,
+    .btn-eliminar:hover {
+        background-color: #E64A29;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+</style>
+{% endblock %}
