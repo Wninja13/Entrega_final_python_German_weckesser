@@ -183,7 +183,7 @@ class MiUsuarioPersonalizado(AbstractBaseUser, PermissionsMixin):
         return self.username
     
 class Perfil(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(MiUsuarioPersonalizado, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='avatars/', default='avatars/default_avatar.png')
     # Agrega aquí los campos adicionales que necesites para el perfil
     nombre = models.CharField(max_length=100, blank=True, null=True)

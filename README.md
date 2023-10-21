@@ -65,7 +65,7 @@ Este proyecto tiene por finalidad poner a prueba las utilidades que posee Django
 
 ## 5.- Funcionalidades
 
-Para ejecutar las funcionalidades:
+Para ejecutar las funcionalidades (corresponde señalar que el proyecto tiene por objetivo darle una intergface a una base de datos, por lo tanto, quiere llevar a la pantalla todo el CRUD), las funcionalidades en el resto de los apartados es similar. Se menciona a continuación algunas de estas para evitar ser repetitivo:
 
 5.1.- **Homepage**:
     - Se observa la funcionalidad del navbar con menús desplegables en cada categoría.
@@ -74,13 +74,13 @@ Para ejecutar las funcionalidades:
 5.2.- **Repartidores - Listar**:
     - Visualización de repartidores cargados en la base de datos.
     - Búsqueda y filtrado de repartidores.
-    - Visualización en forma de tarjetas. Si no hay repartidores, se pueden agregar.
+    - Visualización en forma de tarjetas. Si no hay repartidores, devuelve mensaje de que no se ha encontrado nada. 
 
 5.3.- **Repartidores - Crear**:
     - Formulario para agregar un nuevo repartidor.
     - Opciones para guardar datos o volver al listado.
 
-> **Nota**: Se utiliza herencia en el navbar y en el body del proyecto.La plantilla madre es plantilla_base.html
+> **Nota**: Se utiliza herencia en el navbar y en el body del proyecto.La plantilla madre es plantilla_base.html. Si se uiliza un URL que no es el correcto se devolverá un men saje personalizado de error 404.
 
 ## 6.- Contacto
 

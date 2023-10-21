@@ -3,6 +3,7 @@ from mi_app.models import Repartidor, Tienda, Producto, Pago, Usuario, Cancelaci
 from mi_app.forms import RepartidorForm, TiendaForm, ProductoForm, PagoForm, UsuarioForm, CancelacionForm, OrdenForm,LoginForm
 from django.db.models import Q
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from mi_app.forms import LoginForm 
@@ -32,6 +33,43 @@ def login_usuario(request):
         form = LoginForm()  # Crear una instancia vacía del formulario si no es una solicitud POST
     
     return render(request, 'login_usuarios.html', {'form': form})
+
+def crear_user(request):
+    if request.method == 'POST':
+        # Verificar qué formulario se envió
+        if 'username' in request.POST:  # Es el formulario de creación
+            username = request.POST['username']
+            email = request.POST['email']
+            password1 = request.POST['password1']
+            password2 = request.POST['password2']
+
+            if password1 == password2:
+                if User.objects.filter(username=username).exists():
+                    messages.error(request, 'El nombre de usuario ya existe.')
+                elif User.objects.filter(email=email).exists():
+                    messages.error(request, 'El correo electrónico ya está registrado.')
+                else:
+                    user = User.objects.create_user(username=username, email=email, password=password1)
+                    user.save()
+                    messages.success(request, 'Usuario creado con éxito.')
+                    return redirect('login_usuario')
+            else:
+                messages.error(request, 'Las contraseñas no coinciden.')
+
+        elif 'login-username' in request.POST:  # Es el formulario de inicio de sesión
+            login_username = request.POST['login-username']
+            login_password = request.POST['login-password']
+            
+            user = authenticate(request, username=login_username, password=login_password)
+
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Inicio de sesión exitoso.')
+                return redirect('home')  # Redirige a la página principal después de iniciar sesión
+            else:
+                messages.error(request, 'Nombre de usuario o contraseña incorrectos.')
+
+    return render(request, 'login_usuarios.html')  # Reemplaza 'nombre_de_tu_template.html' con el nombre de tu archivo HTML.
 
 def editar_perfil(request):
     if request.method == 'POST':

@@ -45,13 +45,13 @@ class LoginForm(forms.Form):  # Utiliza forms.Form en lugar de forms.ModelForm
 
 class LoginForm(forms.ModelForm):
     class Meta:
-        model = MiUsuarioPersonalizado  # Especifica el modelo al que pertenece el formulario
-        fields = ['username', 'email', 'password']  # Especifica los campos que deseas mostrar en el formulario
+        model = MiUsuarioPersonalizado  
+        fields = ['username', 'email', 'password']  
         widgets = {
-            'password': forms.PasswordInput(),  # Para mostrar la contraseña como campo de contraseña
+            'password': forms.PasswordInput(),  
         }
         
 class PerfilForm(forms.ModelForm):
     class Meta:
         model = Perfil
-        fields = ['nombre', 'fecha_nacimiento', 'biografia', 'avatar']  # Agrega los campos del perfil que desees editar
+        fields = ['nombre', 'fecha_nacimiento', 'biografia', 'avatar']
